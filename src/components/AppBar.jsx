@@ -1,11 +1,13 @@
 import React from "react";
-import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import Constants from "expo-constants";
+import { Link } from "react-router-native";
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: "#24292e",
+    flexDirection: "row"
   },
   tabText: {
     color: "white",
@@ -18,9 +20,15 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <Pressable>
-        <Text style={styles.tabText}>Repositories</Text>
-      </Pressable>
+      <ScrollView horizontal>
+        <Link to="/">
+          <Text style={styles.tabText}>Repositories</Text>
+        </Link>
+
+        <Link to="/signin">
+          <Text style={styles.tabText}>SignIn</Text>
+        </Link>
+      </ScrollView>
     </View>
   );
 };
