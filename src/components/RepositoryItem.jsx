@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { Link } from 'react-router-native';
 import Text from "./Text";
 
 const styles = StyleSheet.create({
@@ -44,34 +45,36 @@ const RepositoryItem = ({ item }) => {
   };
 
   return (
-    <View style={styles.card}>
-      <View style={styles.top}>
-        <Image style={styles.image} source={{ uri: item.ownerAvatarUrl }} />
-        <View>
-          <Text testID="name" fontSize="header" fontWeight="bold">{item.fullName} </Text>
-          <Text testID="description" fontSize="subheading" color="textSecondary">{item.description}</Text>
-          <Text testID="language" style={styles.language}>{item.language}</Text>
+    <Link to={`/${item.id}`} component={TouchableOpacity}>
+      <View style={styles.card}>
+        <View style={styles.top}>
+          <Image style={styles.image} source={{ uri: item.ownerAvatarUrl }} />
+          <View>
+            <Text testID="name" fontSize="header" fontWeight="bold">{item.fullName} </Text>
+            <Text testID="description" fontSize="subheading" color="textSecondary">{item.description}</Text>
+            <Text testID="language" style={styles.language}>{item.language}</Text>
+          </View>
+        </View>
+        <View style={styles.bottom}>
+          <View>
+            <Text testID="stars" fontWeight="bold" style={styles.text}>{round(item.stargazersCount)}</Text>
+            <Text color="textSecondary" style={styles.text}>Stars</Text>
+          </View>
+          <View>
+            <Text testID="forks" fontWeight="bold" style={styles.text}>{round(item.forksCount)}</Text>
+            <Text color="textSecondary" style={styles.text}>Forks</Text>
+          </View>
+          <View>
+            <Text testID="reviews" fontWeight="bold" style={styles.text}>{round(item.reviewCount)}</Text>
+            <Text color="textSecondary" style={styles.text}>Reviews</Text>
+          </View>
+          <View>
+            <Text testID="ratings" fontWeight="bold" style={styles.text}>{round(item.ratingAverage)}</Text>
+            <Text color="textSecondary" style={styles.text}>Rating</Text>
+          </View>
         </View>
       </View>
-      <View style={styles.bottom}>
-        <View>
-          <Text testID="stars" fontWeight="bold" style={styles.text}>{round(item.stargazersCount)}</Text>
-          <Text color="textSecondary" style={styles.text}>Stars</Text>
-        </View>
-        <View>
-          <Text testID="forks" fontWeight="bold" style={styles.text}>{round(item.forksCount)}</Text>
-          <Text color="textSecondary" style={styles.text}>Forks</Text>
-        </View>
-        <View>
-          <Text testID="reviews" fontWeight="bold" style={styles.text}>{round(item.reviewCount)}</Text>
-          <Text color="textSecondary" style={styles.text}>Reviews</Text>
-        </View>
-        <View>
-          <Text testID="ratings" fontWeight="bold" style={styles.text}>{round(item.ratingAverage)}</Text>
-          <Text color="textSecondary" style={styles.text}>Rating</Text>
-        </View>
-      </View>
-    </View>
+    </Link>
   );
 };
 

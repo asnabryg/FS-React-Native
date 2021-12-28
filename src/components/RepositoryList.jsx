@@ -30,6 +30,7 @@ export const RepositoryListContainer = ({ repositories }) => {
 
 const RepositoryList = () => {
   const { repositories } = useRepositories();
+  // console.log('repos', repositories);
   return <RepositoryListContainer repositories={repositories} />;
 };
 
