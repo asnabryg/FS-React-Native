@@ -1,8 +1,10 @@
 import { FlatList, View, StyleSheet } from "react-native";
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import RepositoryItem from "./RepositoryItem";
 import useRepositories from "../hooks/useRepositories";
 import Order from "./Order";
+import { useDebounce } from 'use-debounce';
+import { Searchbar } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   separator: {
@@ -14,25 +16,41 @@ const ItemSeparator = () => {
   return <View style={styles.separator} />;
 };
 
-export const RepositoryListContainer = ({ repositories, setOrder }) => {
-  const repositoryNodes = repositories
-    ? repositories.edges.map(edge => edge.node)
-    : [];
+export class RepositoryListContainer extends React.Component {
+  renderHeader = () => {
+    const { setOrder, setFilter } = this.props;
+    return (
+      <Header
+        setOrder={setOrder}
+        setFilter={setFilter}
+      />
+    );
+  };
 
-  return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={RepositoryItem}
-      keyExtractor={(item) => item.id}
-      ListHeaderComponent={() => <Header setOrder={setOrder}/>}
-    />
-  );
-};
+  render() {
+    const { repositories } = this.props;
+    const repositoryNodes = repositories
+      ? repositories.edges.map(edge => edge.node)
+      : [];
+
+    return (
+      <FlatList
+        data={repositoryNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={RepositoryItem}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={this.renderHeader}
+      />
+    );
+  }
+}
 
 const RepositoryList = () => {
   const [order, setOrder] = useState();
   // console.log('repos', repositories);
+
+  const [filter, setFilter] = useState('');
+  const [filterValue] = useDebounce(filter, 500);
 
   let orderBy = "CREATED_AT";
   let direction = "DESC";
@@ -46,6 +64,7 @@ const RepositoryList = () => {
       direction = 'DESC';
       break;
     case 'Lowest rated':
+
       orderBy = 'RATING_AVERAGE';
       direction = 'ASC';
       break;
@@ -57,17 +76,30 @@ const RepositoryList = () => {
 
   const { repositories } = useRepositories({
     orderBy,
-    direction
+    direction,
+    filterValue
   });
 
-  return <RepositoryListContainer repositories={repositories} setOrder={setOrder} />;
+  return <RepositoryListContainer repositories={repositories} setOrder={setOrder} setFilter={setFilter} />;
 };
 
-const Header = ({ setOrder }) => {
+const Header = ({ setOrder, setFilter }) => {
   return (
     <View>
-      <Order setOrder={setOrder}/>
+      <Search setFilter={setFilter} />
+      <Order setOrder={setOrder} />
     </View>
+  );
+};
+
+const Search = ({ setFilter }) => {
+  const [search, setSearch] = useState();
+  const onChangeSearch = s => {
+    setFilter(s);
+    setSearch(s);
+  };
+  return (
+    <Searchbar placeholder="Search" onChangeText={onChangeSearch} value={search} />
   );
 };
 
