@@ -8,6 +8,17 @@ import * as yup from "yup";
 import useSignIn from "../hooks/useSignIn";
 import { useHistory } from "react-router-native";
 
+export const SignInContainer = ({ onSubmit, validationSchema }) => {
+  return (
+    <Formik
+      initialValues={{ username: "", password: "" }}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}>
+      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+    </Formik>
+  );
+};
+
 const SignIn = () => {
   const [signIn] = useSignIn();
   const history = useHistory();
@@ -29,12 +40,7 @@ const SignIn = () => {
   };
 
   return (
-    <Formik
-      initialValues={{ username: "", password: "" }}
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}>
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-    </Formik>
+    <SignInContainer onSubmit={onSubmit} validationSchema={validationSchema} />
   );
 };
 

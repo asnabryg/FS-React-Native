@@ -4,7 +4,7 @@ import Constants from "expo-constants";
 import { Link } from "react-router-native";
 import { useApolloClient, useQuery } from "@apollo/client";
 import { AUTHORIZED_USER } from "../graphql/queries";
-import AuthStorage from "../contexts/AuthStorageContext"
+import AuthStorage from "../contexts/AuthStorageContext";
 
 const styles = StyleSheet.create({
   container: {

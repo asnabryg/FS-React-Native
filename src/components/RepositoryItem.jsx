@@ -48,26 +48,26 @@ const RepositoryItem = ({ item }) => {
       <View style={styles.top}>
         <Image style={styles.image} source={{ uri: item.ownerAvatarUrl }} />
         <View>
-          <Text fontSize="header" fontWeight="bold">{item.fullName} </Text>
-          <Text fontSize="subheading" color="textSecondary">{item.description}</Text>
-          <Text style={styles.language}>{item.language}</Text>
+          <Text testID="name" fontSize="header" fontWeight="bold">{item.fullName} </Text>
+          <Text testID="description" fontSize="subheading" color="textSecondary">{item.description}</Text>
+          <Text testID="language" style={styles.language}>{item.language}</Text>
         </View>
       </View>
       <View style={styles.bottom}>
         <View>
-          <Text fontWeight="bold" style={styles.text}>{round(item.stargazersCount)}</Text>
+          <Text testID="stars" fontWeight="bold" style={styles.text}>{round(item.stargazersCount)}</Text>
           <Text color="textSecondary" style={styles.text}>Stars</Text>
         </View>
         <View>
-          <Text fontWeight="bold" style={styles.text}>{round(item.forksCount)}</Text>
+          <Text testID="forks" fontWeight="bold" style={styles.text}>{round(item.forksCount)}</Text>
           <Text color="textSecondary" style={styles.text}>Forks</Text>
         </View>
         <View>
-          <Text fontWeight="bold" style={styles.text}>{round(item.reviewCount)}</Text>
+          <Text testID="reviews" fontWeight="bold" style={styles.text}>{round(item.reviewCount)}</Text>
           <Text color="textSecondary" style={styles.text}>Reviews</Text>
         </View>
         <View>
-          <Text fontWeight="bold" style={styles.text}>{round(item.ratingAverage)}</Text>
+          <Text testID="ratings" fontWeight="bold" style={styles.text}>{round(item.ratingAverage)}</Text>
           <Text color="textSecondary" style={styles.text}>Rating</Text>
         </View>
       </View>
