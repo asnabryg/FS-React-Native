@@ -40,9 +40,15 @@ const AppBar = () => {
 
         {authUser
           ?
-          <Pressable onPress={signOut}>
-            <Text style={styles.tabText}>SignOut</Text>
-          </Pressable>
+          <>
+            <Link to="/review">
+              <Text style={styles.tabText}>Create a review</Text>
+            </Link>
+
+            <Pressable onPress={signOut}>
+              <Text style={styles.tabText}>SignOut</Text>
+            </Pressable>
+          </>
           :
           <Link to="/signin">
             <Text style={styles.tabText}>SignIn</Text>
