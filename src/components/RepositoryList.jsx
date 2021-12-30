@@ -8,7 +8,7 @@ import { Searchbar } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   separator: {
-    height: 10,
+    height: 3,
   },
 });
 
@@ -28,7 +28,7 @@ export class RepositoryListContainer extends React.Component {
   };
 
   render() {
-    const { repositories } = this.props;
+    const { repositories, onEndReach } = this.props;
     const repositoryNodes = repositories
       ? repositories.edges.map(edge => edge.node)
       : [];
@@ -40,6 +40,8 @@ export class RepositoryListContainer extends React.Component {
         renderItem={RepositoryItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={this.renderHeader}
+        onEndReached={onEndReach}
+        oneEndReachedThreshold={0.5}
       />
     );
   }
@@ -74,13 +76,19 @@ const RepositoryList = () => {
       break;
   }
 
-  const { repositories } = useRepositories({
+  const { repositories, fetchMore } = useRepositories({
     orderBy,
     direction,
-    filterValue
+    filterValue,
+    first: 8
   });
 
-  return <RepositoryListContainer repositories={repositories} setOrder={setOrder} setFilter={setFilter} />;
+  const onEndReach = () => {
+    console.log('You have reached the end of the list');
+    fetchMore();
+  };
+
+  return <RepositoryListContainer repositories={repositories} setOrder={setOrder} setFilter={setFilter} onEndReach={onEndReach} />;
 };
 
 const Header = ({ setOrder, setFilter }) => {
